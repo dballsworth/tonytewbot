@@ -2,6 +2,8 @@ import TelegramBot from 'node-telegram-bot-api';
 import fetch from 'node-fetch';
 import https from 'https';
 import express from 'express';
+import { DateTime } from 'luxon';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -22,12 +24,24 @@ async function getNextLaunch() {
   let response = await fetch(url);
   let data = await response.json();
 
+  console.log("Data before sort: " + data);
+
   // Sort the events by date
   //data.sort((a, b) => new Date(a.start) - new Date(b.start));
   data.sort((a, b) => 
-    new Date(a.start).getTime() - new Date(b.start).getTime()
-  );
-  console.log(data);
+    DateTime.fromISO(a.start, { zone: 'America/New_York' }).toMillis() -
+    DateTime.fromISO(b.start, { zone: 'America/New_York' }).toMillis()
+);
+  
+
+
+console.log("Data after sort: " );
+data.forEach(data => {
+  let localTime = DateTime.fromISO(data.start, { zone: 'America/New_York' }).toFormat("EEE, M/d/yyyy, h:mm a ZZZZ");
+  console.log(`Event: ${data.summary}`);
+  console.log(`Start (Raw): ${data.start}`);
+  console.log(`Start (EST/EDT): ${localTime}`);
+});
 
   if (!data) {
       throw new Error("No upcoming events found or start date is missing");
@@ -56,15 +70,7 @@ bot.on('message', async(msg) => {
       // Format the date mm/dd/yyyy hh:mm
       let options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
       //let formattedDate = new Date(listofgigs[i].start).toLocaleDateString('en-US', options);
-      let formattedDate = new Date(listofgigs[i].start).toLocaleString('en-US', { 
-        weekday: 'short', 
-        year: 'numeric', 
-        month: 'numeric', 
-        day: 'numeric', 
-        hour: 'numeric', 
-        minute: 'numeric',
-        timeZoneName: 'short'
-    });
+      let formattedDate = DateTime.fromISO(listofgigs[i].start, { zone: 'America/New_York' }).toFormat("EEE, M/d/yyyy, h:mm a ZZZZ"); // Outputs: "Fri, 1/10/2025, 9:00 PM EST"
       // Calculate how many days from now the formatted date is
       let days = Math.floor((new Date(listofgigs[i].start) - new Date()) / (1000 * 60 * 60 * 24));
       // format the response like this: "3 days until the gig on 12/12/2020 12:00"
