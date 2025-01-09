@@ -23,8 +23,10 @@ async function getNextLaunch() {
   let data = await response.json();
 
   // Sort the events by date
-  data.sort((a, b) => new Date(a.start) - new Date(b.start));
-
+  //data.sort((a, b) => new Date(a.start) - new Date(b.start));
+  data.sort((a, b) => 
+    new Date(a.start).getTime() - new Date(b.start).getTime()
+  );
   console.log(data);
 
   if (!data) {
@@ -45,13 +47,24 @@ bot.on('message', async(msg) => {
 
     //log the length of the list of gigs
     console.log("how many gigs: " + listofgigs.length);
+    console.log("Server Timezone:", Intl.DateTimeFormat().resolvedOptions().timeZone);
+    console.log("Current Server Time (UTC):", new Date().toISOString());
     
 
     //loop through the list of gigs in order and build the response string
     for (let i = 0; i < listofgigs.length; i++) {
       // Format the date mm/dd/yyyy hh:mm
       let options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-      let formattedDate = new Date(listofgigs[i].start).toLocaleDateString('en-US', options);
+      //let formattedDate = new Date(listofgigs[i].start).toLocaleDateString('en-US', options);
+      let formattedDate = new Date(listofgigs[i].start).toLocaleString('en-US', { 
+        weekday: 'short', 
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric',
+        timeZoneName: 'short'
+    });
       // Calculate how many days from now the formatted date is
       let days = Math.floor((new Date(listofgigs[i].start) - new Date()) / (1000 * 60 * 60 * 24));
       // format the response like this: "3 days until the gig on 12/12/2020 12:00"
