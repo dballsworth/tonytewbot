@@ -1,6 +1,17 @@
 import TelegramBot from 'node-telegram-bot-api';
 import fetch from 'node-fetch';
 import https from 'https';
+import express from 'express';
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('Telegram Bot is running...');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 const token = '8101359108:AAHgaw7TV_lbg3iq4j2Pv9Piceg5eugaBxU'; // Replace with your own bot token
 const bot = new TelegramBot(token, { polling: true });
