@@ -18,6 +18,12 @@ app.listen(PORT, () => {
 const token = '8101359108:AAHgaw7TV_lbg3iq4j2Pv9Piceg5eugaBxU'; // Replace with your own bot token
 const bot = new TelegramBot(token, { polling: true });
 
+//OpenAI API
+// OpenAI API Config
+const OPENAI_API_KEY = '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';  // Replace with your actual OpenAI API Key
+const OPENAI_MODEL = 'your-g-4T0xuufYl-expert-prompt-creator';  // Replace with your actual Custom GPT model ID
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+
 // Fetch the calendar
 async function getNextLaunch() {
   const url = "https://smipleexpressapp.netlify.app/.netlify/functions/api/events";
@@ -48,6 +54,30 @@ data.forEach(data => {
   }
   console.log("Returning data: " +  data);
   return data;
+}
+
+
+// Function to call OpenAI Custom GPT
+async function askCustomGPT(prompt) {
+  try {
+      const response = await fetch(OPENAI_API_URL, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${OPENAI_API_KEY}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              model: OPENAI_MODEL,
+              messages: [{ role: "user", content: prompt }]
+          })
+      });
+
+      const json = await response.json();
+      return json.choices?.[0]?.message?.content || "Sorry, I couldn't generate a response.";
+  } catch (error) {
+      console.error("Error calling OpenAI API:", error);
+      return "There was an issue reaching the AI. Please try again later.";
+  }
 }
 
 bot.on('message', async(msg) => {
@@ -102,6 +132,14 @@ bot.on('message', async(msg) => {
     // }).catch(error => console.error(error));
   } else if (messageText === '/help') {
     bot.sendMessage(chatId, 'here is some helpful info: \n/gigs - to see the upcoming gigs \n/guitars <your question> to ask a question about guitars -');
+  } else if (messageText.startsWith('/guitars')) {
+    let prompt = messageText.replace('/guitars ', '');
+    askCustomGPT(prompt).then(response => {
+      bot.sendMessage(chatId, response);
+    }).catch(error => {
+      console.error(error);
+      bot.sendMessage(chatId, 'There was an issue reaching the AI. Please try again later.');
+    });
   }
 });
 
