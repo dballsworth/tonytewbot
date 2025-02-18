@@ -100,6 +100,8 @@ bot.on('message', async(msg) => {
     //   bot.sendMessage(chatId, ` ${event.summary} \nIn <b>${days}</b> days: <b>${formattedDate}</b>`, { parse_mode: 'HTML' });
     //   });
     // }).catch(error => console.error(error));
+  } else if (messageText === '/help') {
+    bot.sendMessage(chatId, 'here is some helpful info: \n/gigs - to see the upcoming gigs \n/guitars <your question> to ask a question about guitars -');
   }
 });
 
