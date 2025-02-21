@@ -3,10 +3,16 @@ import fetch from 'node-fetch';
 import https from 'https';
 import express from 'express';
 import { DateTime } from 'luxon';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const fs = require('fs');
-const path = require('path');
-const __dirname = path.resolve(); // In CommonJS, __dirname is already available
+// Define __dirname manually in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Now you can safely use __dirname
+const files = fs.readdirSync(path.join(__dirname, 'pics'));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -149,7 +155,6 @@ bot.on('message', async(msg) => {
   else if (messageText === '/ivy') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     console.log("entering beaitiful ivy");
     //select 1 of any of the jpeg files in the directory called pics
-    const files = fs.readdirSync(path.join(__dirname, 'pics'));
     const randomFile = files[Math.floor(Math.random() * files.length)];
     console.log(randomFile);
     const filePath = path.join(__dirname, 'pics', randomFile);
