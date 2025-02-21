@@ -141,7 +141,7 @@ bot.on('message', async(msg) => {
       bot.sendMessage(chatId, 'There was an issue reaching the AI. Please try again later.');
     });
   }
-  else if (messageText.startsWith('/ivy')) { // If the message starts with /ivy then send back a jpeg of beautiful ivy
+  else if (messageText === '/ivy') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     const fs = require('fs');
     const path = require('path');
 
