@@ -141,6 +141,18 @@ bot.on('message', async(msg) => {
       bot.sendMessage(chatId, 'There was an issue reaching the AI. Please try again later.');
     });
   }
+  else if (messageText.startsWith('/ivy')) { // If the message starts with /ivy then send back a jpeg of beautiful ivy
+    const fs = require('fs');
+    const path = require('path');
+
+    //select 1 of any of the jpeg files in the directory called pics
+    const files = fs.readdirSync(path.join(__dirname, 'pics'));
+    const randomFile = files[Math.floor(Math.random() * files.length)];
+    console.log(randomFile);
+    const filePath = path.join(__dirname, 'pics', randomFile);
+    const fileStream = fs.createReadStream(filePath);
+    bot.sendPhoto(chatId, fileStream);
+  }
 });
 
 //const token = '8101359108:AAHgaw7TV_lbg3iq4j2Pv9Piceg5eugaBxU'; // Replace with your own bot token
