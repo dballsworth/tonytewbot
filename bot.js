@@ -6,6 +6,10 @@ import https from 'https';
 import express from 'express';
 import { DateTime } from 'luxon';
 
+const fs = require('fs');
+const path = require('path');
+const __dirname = path.resolve(); // In CommonJS, __dirname is already available
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
