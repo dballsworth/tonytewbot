@@ -1,7 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
 import fetch from 'node-fetch';
-import fs from 'fs';
-import path from 'path';
 import https from 'https';
 import express from 'express';
 import { DateTime } from 'luxon';
