@@ -20,7 +20,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 //OpenAI API
 // OpenAI API Config
-const OPENAI_API_KEY = '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';  // Replace with your actual OpenAI API Key
+const OPENAI_API_KEY = 'XXX';  // Replace with your actual OpenAI API Key
 const OPENAI_MODEL = 'your-g-4T0xuufYl-expert-prompt-creator';  // Replace with your actual Custom GPT model ID
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
