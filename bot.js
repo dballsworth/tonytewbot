@@ -11,8 +11,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Now you can safely use __dirname
-const files = fs.readdirSync(path.join(__dirname, 'pics'));
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -155,6 +154,8 @@ bot.on('message', async(msg) => {
   else if (messageText === '/ivy') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     console.log("entering beaitiful ivy");
     //select 1 of any of the jpeg files in the directory called pics
+    // Now you can safely use __dirname
+    let files = fs.readdirSync(path.join(__dirname, 'pics'));
     let randomFile = files[Math.floor(Math.random() * files.length)];
     console.log(randomFile);
     let filePath = path.join(__dirname, 'pics', randomFile);
@@ -164,6 +165,7 @@ bot.on('message', async(msg) => {
   else if (messageText === '/scott') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     console.log("entering scott");
     //select 1 of any of the jpeg files in the directory called pics
+    let files = fs.readdirSync(path.join(__dirname, 'scott'));
     let randomFile = files[Math.floor(Math.random() * files.length)];
     console.log(randomFile);
     let filePath = path.join(__dirname, 'scott', randomFile);
