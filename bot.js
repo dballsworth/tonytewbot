@@ -83,6 +83,7 @@ async function askCustomGPT(prompt) {
 }
 
 bot.on('message', async(msg) => {
+  console.log("Received message:", msg);
   const chatId = msg.chat.id;
   const messageText = msg.text;
 
