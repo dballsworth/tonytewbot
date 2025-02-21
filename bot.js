@@ -145,9 +145,7 @@ bot.on('message', async(msg) => {
     });
   }
   else if (messageText === '/ivy') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
-    const fs = require('fs');
-    const path = require('path');
-
+    console.log("entering beaitiful ivy");
     //select 1 of any of the jpeg files in the directory called pics
     const files = fs.readdirSync(path.join(__dirname, 'pics'));
     const randomFile = files[Math.floor(Math.random() * files.length)];
