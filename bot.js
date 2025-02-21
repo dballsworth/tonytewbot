@@ -155,19 +155,19 @@ bot.on('message', async(msg) => {
   else if (messageText === '/ivy') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     console.log("entering beaitiful ivy");
     //select 1 of any of the jpeg files in the directory called pics
-    const randomFile = files[Math.floor(Math.random() * files.length)];
+    let randomFile = files[Math.floor(Math.random() * files.length)];
     console.log(randomFile);
-    const filePath = path.join(__dirname, 'pics', randomFile);
-    const fileStream = fs.createReadStream(filePath);
+    let filePath = path.join(__dirname, 'pics', randomFile);
+    let fileStream = fs.createReadStream(filePath);
     bot.sendPhoto(chatId, fileStream);
   }
   else if (messageText === '/scott') { // If the message starts with /ivy then send back a jpeg of beautiful ivy
     console.log("entering scott");
     //select 1 of any of the jpeg files in the directory called pics
-    const randomFile = files[Math.floor(Math.random() * files.length)];
+    let randomFile = files[Math.floor(Math.random() * files.length)];
     console.log(randomFile);
-    const filePath = path.join(__dirname, 'scott', randomFile);
-    const fileStream = fs.createReadStream(filePath);
+    let filePath = path.join(__dirname, 'scott', randomFile);
+    let fileStream = fs.createReadStream(filePath);
     bot.sendPhoto(chatId, fileStream);
   }
 });
